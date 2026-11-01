@@ -5,6 +5,7 @@ import axios, { getApiErrorMessage, unwrap } from "../../api/axios";
 import authApi from "../../api/restaurant/authApi";
 import { isNonEmpty, isValidEmail, isValidPhoneNumber } from "../../utils/validators";
 import { PartnerLogo } from "../../components/brand/PartnerLogo";
+import { AuthErrorNotice } from "../../components/ui/AuthErrorNotice";
 import { partnerImages } from "../../config/partnerImages";
 
 interface RestaurantLocation {
@@ -108,7 +109,7 @@ export function RestaurantRegisterPage() {
 	}
 
 	return (
-		<main className="relative grid min-h-screen w-full grid-cols-[minmax(0,55%)_minmax(0,45%)] overflow-hidden bg-[#f9f7f0] text-[#17251f] [font-family:Inter,Segoe_UI,sans-serif] max-[900px]:grid-cols-[minmax(0,48%)_minmax(0,52%)] max-[680px]:grid-cols-1 max-[680px]:overflow-auto min-h-screen items-stretch overflow-visible">
+		<main className="restaurant-font-scale relative grid min-h-screen w-full grid-cols-[minmax(0,55%)_minmax(0,45%)] overflow-hidden bg-[#f9f7f0] text-[#17251f] [font-family:Inter,Segoe_UI,sans-serif] max-[900px]:grid-cols-[minmax(0,48%)_minmax(0,52%)] max-[680px]:grid-cols-1 max-[680px]:overflow-auto min-h-screen items-stretch overflow-visible">
 			<section className="relative min-h-screen w-full overflow-hidden bg-cover bg-center bg-[#322819] after:absolute after:inset-0 after:bg-[linear-gradient(90deg,rgba(5,20,15,.62),rgba(9,20,15,.18)_72%,rgba(12,23,17,.1)),linear-gradient(0deg,rgba(9,17,12,.5),transparent_50%)] after:content-[''] max-[680px]:min-h-[320px] max-[380px]:min-h-[300px]" style={{ backgroundImage: `linear-gradient(90deg, rgba(9, 22, 17, .79), rgba(15, 24, 19, .25) 72%, rgba(15, 24, 19, .08)), url("${partnerImages.restaurant.authBackground}")` }}>
 				<div className="absolute inset-[32px_clamp(26px,5.1vw,60px)_28px] z-[1] flex flex-col items-start text-white max-[900px]:right-6 max-[900px]:left-[27px] max-[680px]:inset-[20px_24px]">
 					<Link to="/partner" className="grid no-underline">
@@ -166,8 +167,8 @@ export function RestaurantRegisterPage() {
 										<span>Password</span>
 										<div><LockKeyhole size={16} /><input type="password" autoComplete="new-password" minLength={8} placeholder="At least 8 characters" value={password} onChange={(event) => setPassword(event.target.value)} required /></div>
 									</label>
-									{locationError ? <p className="m-0 rounded-md bg-[#fbefed] p-[9px_10px] text-[10px] leading-[1.4] text-[#984d43]" role="alert">{locationError}</p> : null}
-									{error ? <p className="m-0 rounded-md bg-[#fbefed] p-[9px_10px] text-[10px] leading-[1.4] text-[#984d43]" role="alert">{error}</p> : null}
+									{locationError ? <AuthErrorNotice title="Service areas unavailable">{locationError}</AuthErrorNotice> : null}
+									{error ? <AuthErrorNotice title="Application not submitted">{error}</AuthErrorNotice> : null}
 									<button className="mt-px flex min-h-[41px] w-full items-center justify-center gap-[9px] rounded-[9px] border border-[#cf8714] bg-[linear-gradient(100deg,#c27a0b,#cb7807)] px-3 text-[12px] font-bold text-white shadow-[0_2px_4px_rgba(135,81,5,.12)] disabled:cursor-wait disabled:opacity-[.68]" type="submit" disabled={submitting || loadingLocations || locations.length === 0}>{submitting ? "Submitting application..." : <>Create Restaurant Account <ArrowRight size={16} /></>}</button>
 								</form>
 								<p className="mt-[18px] mb-2 text-center text-[10px] text-[#6a827e]">Already have an account? <Link to="/partner/restaurant/login">Sign in <ArrowRight size={13} /></Link></p>
